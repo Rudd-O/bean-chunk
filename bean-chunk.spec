@@ -3,7 +3,7 @@
 
 Summary:        Chunk Beancount input files into matching and non-matching output files.
 Name:           bean-chunk
-Version:        0.0.1
+Version:        0.0.2
 Release:        %{mybuildnumber}%{?dist}
 License:        GPL
 Group:          Financial/Accounting
