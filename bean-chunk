@@ -1,0 +1,39 @@
+#!/usr/bin/python3
+
+import sys
+
+matchers = sys.argv[4:]
+infile = open(sys.argv[1], "r")
+chunk = None
+lastone = None
+
+def match(text):
+    return all (m in text for m in matchers)
+
+
+def start_condition(line):
+    return line.startswith("20") or line.startswith(";")
+
+def end_condition(line):
+    return not bool(line.rstrip("\n"))
+
+
+with open(sys.argv[2], "w") as matched:
+    with open(sys.argv[3], "w") as notmatched:
+        for line in infile:
+            if chunk is not None:
+                chunk += line
+                if end_condition(line):
+                    # Chunk over.  We print.
+                    lastone = (matched if match(chunk) else notmatched)
+                    lastone.write(chunk)
+                    chunk = None
+            else:
+                if start_condition(line):
+                    chunk = line
+                else:
+                    matched.write(line)
+                    notmatched.write(line)
+
+        if chunk is not None:
+            (matched if match(chunk) else notmatched).write(chunk)
