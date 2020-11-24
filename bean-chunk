@@ -1,6 +1,11 @@
 #!/usr/bin/python3
 
-import sys
+import sys, os
+
+if len(sys.argv) < 5:
+    print("usage: %s infile.beancount matches.beancount nonmatches.beancount <matchstr> [matchstr...]", file=sys.stderr)
+    print("infile.beancount will be split into two files: one that matches the match strings you passed, and another that does not match.", file=sys.stderr)
+    sys.exit(os.EX_USAGE)
 
 matchers = sys.argv[4:]
 infile = open(sys.argv[1], "r")
